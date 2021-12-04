@@ -1,0 +1,6 @@
+{
+    "host": "your db ip",
+    "database": "your db name",
+    "user": "your db username",
+    "password": "your db password"
+}
