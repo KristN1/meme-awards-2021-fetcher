@@ -114,7 +114,7 @@ def main():
     page_number = starting_page
     while True:
         print(f"Handling page {page_number}")
-        if page_number <= ending_page:
+        if page_number != ending_page:
             handle_page(page_number)
             page_number += 1
 
