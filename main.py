@@ -41,6 +41,11 @@ def count_reactions(reactions: str):
 
     try:
         reactions_number = int(reactions.split(" and ")[1][0])
+        if reactions.split(" and ")[1][1] != " ":
+            reactions_number += reactions.split(" and ")[1][1]
+            if reactions.split(" and ")[1][2] != " ":
+                reactions_number += reactions.split(" and ")[1][2]
+
     except:
         return reactions_names
 
@@ -53,7 +58,6 @@ def get_msg_url(message: selenium.webdriver.remote.webelement.WebElement):
     return message_buttons[1].find_element(By.CSS_SELECTOR, "a").get_attribute("href")
 
 def get_image(message: selenium.webdriver.remote.webelement.WebElement): # if you use anything else than imgur or yt, then sorry :)
-    
     image = message.find_elements(By.CLASS_NAME, "bbImage") # uploaded directly to cubecraft
     image_imgur = message.find_elements(By.CLASS_NAME, "imgur-embed-iframe-pub") # imgur embed
     image_yt = message.find_elements(By.CSS_SELECTOR, "[frameborder='0']") # youtube embed
@@ -80,6 +84,7 @@ def handle_message(message: selenium.webdriver.remote.webelement.WebElement):
     url = get_msg_url(message)
 
     if posted_at.year == 2021 and image is not None:
+        print(f"{username} posted at {posted_at} with {reactions} reactions and {image}")
         return Messages.Message(username, url, image, reactions, posted_at)
     else:
         return None
@@ -107,11 +112,13 @@ def main():
         if page_number <= ending_page:
             handle_page(page_number)
             page_number += 1
-        
+            break
+
             with open("last_page.txt", "w") as f:
                 f.write(str(page_number))
         else:
             break
+
 
 if __name__ == "__main__":
     main()
