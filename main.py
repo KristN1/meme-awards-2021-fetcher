@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 import undetected_chromedriver.v2 as uc
 
 driver = None
-with open("last_page.txt", "r") as f:
+with open("sotrage/last_page.txt", "r") as f:
     try:
         starting_page = int(f.read()) + 1
     except ValueError:
@@ -118,7 +118,7 @@ def main():
             handle_page(page_number)
             page_number += 1
 
-            with open("last_page.txt", "w") as f:
+            with open("storage/last_page.txt", "w") as f:
                 f.write(str(page_number))
         else:
             break

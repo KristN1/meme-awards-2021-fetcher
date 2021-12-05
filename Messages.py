@@ -2,7 +2,7 @@ import datetime
 import json
 import mysql.connector
 
-with open("./mysql_config.json") as f:
+with open("./storage/mysql_config.json") as f:
     config = json.load(f)
 
     host = config["host"]
@@ -26,7 +26,7 @@ class Message():
 
         ignore_query = "SET SESSION SQL_MODE='ALLOW_INVALID_DATES';"
         cursor.execute(ignore_query)
-        
+
         check_query = "SELECT * FROM memes WHERE url = %s"
         cursor.execute(check_query, (self.url,))
 
