@@ -1,4 +1,4 @@
-mysql_config.json
 __pycache__/
 **/__pycache__
 storage/*.txt
+storage/*json
