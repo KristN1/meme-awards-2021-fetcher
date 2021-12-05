@@ -84,7 +84,6 @@ def handle_message(message: selenium.webdriver.remote.webelement.WebElement):
     url = get_msg_url(message)
 
     if posted_at.year == 2021 and image is not None:
-        print(f"{username} posted at {posted_at} with {reactions} reactions and {image}")
         return Messages.Message(username, url, image, reactions, posted_at)
     else:
         return None
@@ -112,7 +111,6 @@ def main():
         if page_number <= ending_page:
             handle_page(page_number)
             page_number += 1
-            break
 
             with open("last_page.txt", "w") as f:
                 f.write(str(page_number))
