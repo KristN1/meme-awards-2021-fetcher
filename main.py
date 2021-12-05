@@ -37,25 +37,27 @@ def remove_emoji(string): # https://gist.github.com/slowkow/7a7f61f495e3dbb7e3d7
     return emoji_pattern.sub(r'', string)
 
 def count_reactions(reactions: str):
-    reactions_names = len(reactions.split(","))
+        if len(reactions.split(", ")) == 1 and len(reactions.split(" and ")) == 1:
+            return 1
 
-    if len(reactions.split(" and ")) == 2:
-        return 2
+        elif len(reactions.split(", ")) == 1 and len(reactions.split(" and ")) == 2:
+            return 2
 
-    try:
-        reactions_number = reactions.split(" and ")[1][0]
+        elif len(reactions.split(", ")) == 2:
+            return 3
 
-    except:
-        return reactions_names
+        elif len(reactions.split(", ")) == 3:
+            res = len(reactions.split(", "))
+            
+            numbers = reactions.split(" and ")[1][0]
+            if reactions.split(" and ")[1][1] != " ":
+                numbers += str(reactions.split(" and ")[1][1])
+                if reactions.split(" and ")[1][2] != " ":
+                    numbers += str(reactions.split(" and ")[1][2])
+                
+            return res + int(numbers)
 
-    else:
-        if reactions.split(" and ")[1][1] != " ":
-            reactions_number += reactions.split(" and ")[1][1]
-            if reactions.split(" and ")[1][2] != " ":
-                reactions_number += reactions.split(" and ")[1][2]
-
-        return reactions_number
-
+            
 def get_msg_url(message: selenium.webdriver.remote.webelement.WebElement):
     message_buttons = message.find_elements(By.CLASS_NAME, "message-attribution-opposite li")
 
