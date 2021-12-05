@@ -1,6 +1,5 @@
 import selenium
 import Messages
-import time
 import re
 from datetime import datetime
 from selenium.webdriver.common.by import By
