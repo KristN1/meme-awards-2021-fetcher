@@ -53,22 +53,34 @@ def get_msg_url(message: selenium.webdriver.remote.webelement.WebElement):
 
     return message_buttons[1].find_element(By.CSS_SELECTOR, "a").get_attribute("href")
 
+def get_image(message: selenium.webdriver.remote.webelement.WebElement): # if you use anything else than imgur or yt, then sorry :)
+    
+    image = message.find_elements(By.CLASS_NAME, "bbImage") # uploaded directly to cubecraft
+    image_imgur = message.find_elements(By.CLASS_NAME, "imgur-embed-iframe-pub") # imgur embed
+    image_yt = message.find_elements(By.CSS_SELECTOR, "[frameborder='0']") # youtube embed
+    
+    try:
+        return image[0].get_attribute("src")
+    except IndexError:
+        try:
+            return image_imgur[0].get_attribute("src")
+        except IndexError:
+            try:
+                return image_yt[0].get_attribute("src")
+            except IndexError:
+                return None
     
 def handle_message(message: selenium.webdriver.remote.webelement.WebElement):
     username = remove_emoji(message.find_element(By.CLASS_NAME, "username").text)
 
-    try:
-        image = message.find_element(By.CLASS_NAME, "bbImage").get_attribute("src")
-    except selenium.common.exceptions.NoSuchElementException:
-        return None
-
+    image = get_image(message)
     reactions = count_reactions(message.find_element(By.CLASS_NAME, "reactionsBar").text)
     posted_at_str = message.find_element(By.CLASS_NAME, "u-dt").get_attribute("datetime")
     posted_at = datetime.strptime(posted_at_str[:-5], "%Y-%m-%dT%H:%M:%S")
 
     url = get_msg_url(message)
 
-    if posted_at.year == 2021:
+    if posted_at.year == 2021 and image is not None:
         return Messages.Message(username, url, image, reactions, posted_at)
     else:
         return None
