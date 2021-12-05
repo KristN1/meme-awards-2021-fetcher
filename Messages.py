@@ -24,6 +24,9 @@ class Message():
         connection = mysql.connector.connect(host=host, user=user, password=password, database=database)
         cursor = connection.cursor()
 
+        ignore_query = "SET SESSION SQL_MODE='ALLOW_INVALID_DATES';"
+        cursor.execute(ignore_query)
+        
         check_query = "SELECT * FROM memes WHERE url = %s"
         cursor.execute(check_query, (self.url,))
 

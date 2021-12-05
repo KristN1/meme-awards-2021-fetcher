@@ -57,7 +57,7 @@ def count_reactions(reactions: str):
                 
             return res + int(numbers)
 
-            
+
 def get_msg_url(message: selenium.webdriver.remote.webelement.WebElement):
     message_buttons = message.find_elements(By.CLASS_NAME, "message-attribution-opposite li")
 
