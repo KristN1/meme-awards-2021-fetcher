@@ -37,20 +37,26 @@ def remove_emoji(string): # https://gist.github.com/slowkow/7a7f61f495e3dbb7e3d7
     return emoji_pattern.sub(r'', string)
 
 def count_reactions(reactions: str):
+    print(reactions)
     reactions_names = len(reactions.split(","))
 
+    if len(reactions.split(" and ")) == 2:
+        return 2
+
     try:
-        reactions_number = int(reactions.split(" and ")[1][0])
-        if reactions.split(" and ")[1][1] != " ":
-            reactions_number += reactions.split(" and ")[1][1]
-            if reactions.split(" and ")[1][2] != " ":
-                reactions_number += reactions.split(" and ")[1][2]
+        reactions_number = reactions.split(" and ")[1][0]
 
     except:
         return reactions_names
 
     else:
-        return reactions_number + reactions_names
+        if reactions.split(" and ")[1][1] != " ":
+            reactions_number += reactions.split(" and ")[1][1]
+            if reactions.split(" and ")[1][2] != " ":
+                reactions_number += reactions.split(" and ")[1][2]
+
+        print(reactions_number)
+        return reactions_number
 
 def get_msg_url(message: selenium.webdriver.remote.webelement.WebElement):
     message_buttons = message.find_elements(By.CLASS_NAME, "message-attribution-opposite li")
